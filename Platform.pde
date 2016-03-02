@@ -52,6 +52,11 @@ public class Platform
     return platXSpeed;
   }
   
+  private float getPlatXSprintSpeed()
+  {
+    return platXSprintSpeed;
+  }
+  
   private float getPlatXVel()
   {
     return platXVel;

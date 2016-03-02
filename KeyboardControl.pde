@@ -1,6 +1,11 @@
 public class KeyboardControl
 {
-  int jumpCount = 0;
+  int jumpCount = 0;//For double jumps, etc.
+  int aTapCount = 0;//For enabling sprint on double tap
+  int dTapCount = 0;
+  int doubleTapDelayInMillis = 225;
+  float aTapStartTime;
+  float dTapStartTime;
   HashMap <Integer, boolean[]> keys;
   public KeyboardControl(int numKeys)//At least need 4 keys: WASD
   {
@@ -101,6 +106,7 @@ public class KeyboardControl
   
   protected void performKeys(boolean isOnPlatform, HashMap <Integer, Platform> platforms)
   {
+    //'W'///////////////////////////////////////////////////////////////////////////////////////////////
     if (isOnPlatform)
       jumpCount = 0;
     if ( this.keys.get(0)[0] && !this.keys.get(0)[1])//If 'w' is pressed and 'w' is not being held down
@@ -117,6 +123,9 @@ public class KeyboardControl
         jumpCount++;
       }
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //'S'///////////////////////////////////////////////////////////////////////////////////////////////
     else if (this.keys.get(2)[0] || this.keys.get(2)[1])//If 'S' is pressed or is being held down
     {
       println ("S");
@@ -125,32 +134,72 @@ public class KeyboardControl
         platforms.get(x).setPlatYVel(-1*platforms.get(x).getPlatYSpeed());
       }
     }
-    else
-    {
-      
-    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    if (this.keys.get(1)[0] || this.keys.get(1)[1])//If 'A' is pressed or is being held down
+    //'A'///////////////////////////////////////////////////////////////////////////////////////////////
+    if (this.keys.get(1)[0] && !this.keys.get(1)[1])//If 'A' is pressed
+    {
+      aTapStartTime = millis();
+      aTapCount++;
+    }
+    if(this.keys.get(1)[1])//If 'A' is pressed or is being held down
     {
       println ("A");
-      for (int x = 0; x < platforms.size(); x++)
+      if (aTapCount <= 1)
       {
-        platforms.get(x).setPlatXVel(platforms.get(x).getPlatXSpeed());
-        platforms.get(x).setXCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+        for (int x = 0; x < platforms.size(); x++)
+        {
+          platforms.get(x).setPlatXVel(platforms.get(x).getPlatXSpeed());
+          platforms.get(x).setXCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+        }
       }
-    }
-    else if (this.keys.get(3)[0] || this.keys.get(3)[1])//If 'D' is pressed or is being held down
-    {
-      println ("D");
-      for (int x = 0; x < platforms.size(); x++)
+      else if (aTapCount >= 2)
       {
-        platforms.get(x).setPlatXVel(-1*platforms.get(x).getPlatXSpeed());
-        platforms.get(x).setXCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+        for (int x = 0; x < platforms.size(); x++)
+        {
+          platforms.get(x).setPlatXVel(platforms.get(x).getPlatXSprintSpeed());
+          platforms.get(x).setXCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+        }
       }
     }
     else
     {
-      
+      if ((millis() - aTapStartTime) > doubleTapDelayInMillis)//Gives the player more time for the second tap of the double-tap to register
+        aTapCount = 0;
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //'D'///////////////////////////////////////////////////////////////////////////////////////////////
+    if (this.keys.get(3)[0] && !this.keys.get(3)[1])//If 'D' is pressed
+      {
+        dTapStartTime = millis();
+        dTapCount++;
+      }
+      if(this.keys.get(3)[1])//If 'D' is pressed or is being held down
+      {
+        println ("D");
+        if (dTapCount <= 1)
+        {
+          for (int x = 0; x < platforms.size(); x++)
+          {
+            platforms.get(x).setPlatXVel(-1*platforms.get(x).getPlatXSpeed());
+            platforms.get(x).setXCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+          }
+        }
+        else if (dTapCount >= 2)
+        {
+          for (int x = 0; x < platforms.size(); x++)
+          {
+            platforms.get(x).setPlatXVel(-1*platforms.get(x).getPlatXSprintSpeed());
+            platforms.get(x).setXCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+          }
+        }
+      }
+      else
+      {
+        if ((millis() - dTapStartTime) > doubleTapDelayInMillis)//Gives the player more time for the second tap of the double-tap to register
+          dTapCount = 0;
+      }
+      //////////////////////////////////////////////////////////////////////////////////////////////////////
   }//End performKeys
 }//End class

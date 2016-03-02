@@ -1,4 +1,20 @@
-
+/*
+  Author: Jack Tabb
+  Date: 03/02/2016
+  Title: HomeworkRushAlpha2
+  Purpose: A really early version of HomeworkRush, a platformer/RPG with a school theme
+  
+  To Do:
+    1. Try to make each class less than 100 lines of code
+    2. Completely design one map
+    3. Add Bullies and their AI
+    4. Add Attack and Health
+    5. Add Scoring by Time
+    5. Add Images
+    6. Add ability to load map from text file
+    7. Add player perks and a player configuration file that saves settings, player progress, etc.
+    8. Add GUI Main Menu, with options and stuff that get saved
+*/
 boolean runGame = true;
 boolean viewMenu = false;
 Environment env;
