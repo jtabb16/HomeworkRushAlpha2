@@ -5,15 +5,12 @@ Environment env;
 KeyboardControl kc;
 void setup()
 {
-  size (1200, 700);
+  fullScreen();
+  //size (1200, 700);
   frameRate(250);
   
-  env = new Environment();
-  //Make an environment
-        //Make a player
-        //Make a controller
-        //Make a map out of platforms
-  kc = new KeyboardControl(4);
+  env = new Environment();//Make an environment
+  kc = new KeyboardControl(4);//Make a controller / keyboard listener
 }
 
 void draw()

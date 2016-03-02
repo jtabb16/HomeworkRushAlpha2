@@ -6,8 +6,10 @@ public class Platform
   private float platOriginalY;
   
   private float platXVel, platYVel;
-  private float platXSpeed = 2;
-  private float platYJumpSpeed = 4;
+  private float platXSpeed = 1;
+  private float platXSprintSpeed = 2;//For sprinting (if double-tap and hold A or D)
+  private float platYJumpSpeed = 2;
+  Platform(){}
   Platform(float x, float y, float w)
   {
     platOriginalY = y;

@@ -3,8 +3,10 @@ public class Player
   float playerX, playerY;
   float playerWidth = 20;
   float playerHeight = 50;
+  //The player moving up and down / side to side is actually movement of the platforms
   //float playerYVel = 0;
   //float playerYSpeed = 5;
+  Player(){}
   Player(float initialPx, float initialPy)
   {
     playerX = initialPx;

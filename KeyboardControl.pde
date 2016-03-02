@@ -1,5 +1,6 @@
 public class KeyboardControl
 {
+  int jumpCount = 0;
   HashMap <Integer, boolean[]> keys;
   public KeyboardControl(int numKeys)//At least need 4 keys: WASD
   {
@@ -98,29 +99,35 @@ public class KeyboardControl
     keys.put(mapIndex,array);
   }
   
-  //protected void performKeys(float platformX, float platformY, float platformXSpeed, float platformYSpeed)
-  protected void performKeys(HashMap <Integer, Platform> platforms)
+  protected void performKeys(boolean isOnPlatform, HashMap <Integer, Platform> platforms)
   {
-    //float platformYVel;
-    //float platformXVel;
+    if (isOnPlatform)
+      jumpCount = 0;
     if ( this.keys.get(0)[0] && !this.keys.get(0)[1])//If 'w' is pressed and 'w' is not being held down
     {
       println ("W");
-      for (int x = 0; x < platforms.size(); x++)
+      //Double jump is allowed by default
+      //Triple jump is allowed by special items. to defeat boss, triple jump is necessary. Have to get triple jump from opening treasure-locker on special levels
+      if (jumpCount < 2)
       {
-        platforms.get(x).setPlatYVel(platforms.get(x).getPlatYSpeed());
-        //platforms.get(x).setYCoord(platforms.get(x).getXCoord() + platforms.get(x).getPlatXVel());
+        for (int x = 0; x < platforms.size(); x++)
+        {
+          platforms.get(x).setPlatYVel(platforms.get(x).getPlatYSpeed());
+        }
+        jumpCount++;
       }
-      //this.velY = -speedY;
     }
     else if (this.keys.get(2)[0] || this.keys.get(2)[1])//If 'S' is pressed or is being held down
     {
       println ("S");
-      //this.velY = speedY;
+      for (int x = 0; x < platforms.size(); x++)
+      {
+        platforms.get(x).setPlatYVel(-1*platforms.get(x).getPlatYSpeed());
+      }
     }
     else
     {
-      //this.velY = 0;
+      
     }
     
     if (this.keys.get(1)[0] || this.keys.get(1)[1])//If 'A' is pressed or is being held down
