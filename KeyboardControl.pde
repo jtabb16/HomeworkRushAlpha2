@@ -6,6 +6,10 @@ public class KeyboardControl
   int doubleTapDelayInMillis = 225;
   float aTapStartTime;
   float dTapStartTime;
+  
+  
+  boolean faceRight = false;
+  
   HashMap <Integer, boolean[]> keys;
   public KeyboardControl(int numKeys)//At least need 4 keys: WASD
   {
@@ -54,7 +58,7 @@ public class KeyboardControl
   
   protected void changePressedKey(int mapIndex)
   {
-    boolean [] array = this.keys.get(mapIndex);
+    boolean [] array = keys.get(mapIndex);
     //If the key's "keyIsPressed" boolean is false, then it must have just been pressed
     if (!array[0])
       array[1] = false;//the key was just pressed, so it hasn't been held down
@@ -92,7 +96,7 @@ public class KeyboardControl
   
   protected void changeReleasedKey(int mapIndex)
   {
-    boolean [] array = this.keys.get(mapIndex);
+    boolean [] array = keys.get(mapIndex);
     //If the key's "keyIsPressed" boolean is true, then it must have just been released
     if (array[0])
       array[2] = false;//the key was just released, so it hasn't been released for more than one iteration
@@ -104,12 +108,12 @@ public class KeyboardControl
     keys.put(mapIndex,array);
   }
   
-  protected void performKeys(boolean isOnPlatform, HashMap <Integer, Platform> platforms)
+  protected void performKeys(Player p, boolean isOnPlatform, HashMap <Integer, Platform> platforms)
   {
     //'W'///////////////////////////////////////////////////////////////////////////////////////////////
     if (isOnPlatform)
       jumpCount = 0;
-    if ( this.keys.get(0)[0] && !this.keys.get(0)[1])//If 'w' is pressed and 'w' is not being held down
+    if ( keys.get(0)[0] && !keys.get(0)[1])//If 'w' is pressed and 'w' is not being held down
     {
       println ("W");
       //Double jump is allowed by default
@@ -126,7 +130,7 @@ public class KeyboardControl
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //'S'///////////////////////////////////////////////////////////////////////////////////////////////
-    else if (this.keys.get(2)[0] || this.keys.get(2)[1])//If 'S' is pressed or is being held down
+    else if (keys.get(2)[0] || keys.get(2)[1])//If 'S' is pressed or is being held down
     {
       println ("S");
       for (int x = 0; x < platforms.size(); x++)
@@ -137,12 +141,17 @@ public class KeyboardControl
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //'A'///////////////////////////////////////////////////////////////////////////////////////////////
-    if (this.keys.get(1)[0] && !this.keys.get(1)[1])//If 'A' is pressed
+    if (keys.get(1)[0] && !keys.get(1)[1])//If 'A' is pressed
     {
+      if (faceRight)
+      {
+        p.setXVel(p.getPlayerXSpeed());
+        faceRight = false;
+      }
       aTapStartTime = millis();
       aTapCount++;
     }
-    if(this.keys.get(1)[1])//If 'A' is pressed or is being held down
+    if(keys.get(1)[1])//If 'A' is pressed or is being held down
     {
       println ("A");
       if (aTapCount <= 1)
@@ -170,12 +179,17 @@ public class KeyboardControl
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //'D'///////////////////////////////////////////////////////////////////////////////////////////////
-    if (this.keys.get(3)[0] && !this.keys.get(3)[1])//If 'D' is pressed
+    if (keys.get(3)[0] && !keys.get(3)[1])//If 'D' is pressed
       {
+        if (!faceRight)
+        {
+          p.setXVel(-1*p.getPlayerXSpeed());
+          faceRight = true;
+        }
         dTapStartTime = millis();
         dTapCount++;
       }
-      if(this.keys.get(3)[1])//If 'D' is pressed or is being held down
+      if(keys.get(3)[1])//If 'D' is pressed or is being held down
       {
         println ("D");
         if (dTapCount <= 1)
@@ -202,4 +216,9 @@ public class KeyboardControl
       }
       //////////////////////////////////////////////////////////////////////////////////////////////////////
   }//End performKeys
+  
+  private boolean getFacingRightBoolean()
+  {
+    return faceRight;
+  }
 }//End class

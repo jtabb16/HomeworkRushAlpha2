@@ -1,10 +1,12 @@
 public class Environment
 {
-  //int jumpCounter = 0;
-  float gravity = -.02;
-  Player player;
-  GameMap gameMap;
-  BoundaryDetection bD;
+  private float gravity = -.02;
+  private float maxScreenShiftAmount = 115;
+  boolean shiftPlayer = true;
+  
+  private Player player;
+  private GameMap gameMap;
+  private BoundaryDetection bD;
   
   Environment()
   {  
@@ -13,15 +15,32 @@ public class Environment
     bD = new BoundaryDetection();//Add a boundary listener / detector
   }
   
-  public void updateEnvironment()
+  private void updateEnvironment()
   {
     if (keyPressed)
       kc.keyIsPressed(key);
-    kc.performKeys(bD.checkIfPlayerIsOnPlatform (player, gameMap.getPlatforms()), gameMap.getPlatforms());
+    kc.performKeys(player, bD.checkIfPlayerIsOnPlatform (player, gameMap.getPlatforms()), gameMap.getPlatforms());
     
     //Update the position of the player and platforms
+    
+    if (kc.getFacingRightBoolean() && player.getPlayerX() >= (width/2 - maxScreenShiftAmount))
+      shiftPlayer = true;
+    else if (!kc.getFacingRightBoolean() && player.getPlayerX() <= (width/2 - maxScreenShiftAmount))
+      shiftPlayer = true;
+      
+    if (shiftPlayer)
+    {
+      player.setXVel(player.getXVel() * player.getPlayerXAccelMag());
+      player.setPlayerX(player.getPlayerX() + player.getXVel());
+    }
+    
     for (int x = 0; x < gameMap.getPlatforms().size(); x++)
     {
+      if (shiftPlayer)
+      {
+        gameMap.getPlatforms().get(x).setXCoord(gameMap.getPlatforms().get(x).getXCoord() + player.getXVel());
+      }
+      
       gameMap.getPlatforms().get(x).setPlatYVel(gameMap.getPlatforms().get(x).getPlatYVel() + gravity);
       gameMap.getPlatforms().get(x).setYCoord(gameMap.getPlatforms().get(x).getYCoord() + gameMap.getPlatforms().get(x).getPlatYVel());
     }

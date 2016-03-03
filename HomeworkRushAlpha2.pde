@@ -15,10 +15,10 @@
     7. Add player perks and a player configuration file that saves settings, player progress, etc.
     8. Add GUI Main Menu, with options and stuff that get saved
 */
-boolean runGame = true;
-boolean viewMenu = false;
-Environment env;
-KeyboardControl kc;
+private boolean runGame = true;
+private boolean viewMenu = false;
+private Environment env;
+private KeyboardControl kc;
 void setup()
 {
   fullScreen();
