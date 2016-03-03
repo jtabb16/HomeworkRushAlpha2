@@ -2,7 +2,7 @@ public class Environment
 {
   private float gravity = -.02;
   private float maxScreenShiftAmount = 115;
-  boolean shiftPlayer = true;
+  private boolean shiftPlayer = true;
   
   private Player player;
   private GameMap gameMap;
@@ -48,5 +48,6 @@ public class Environment
     //Draw the player and gameMap(platforms) after processing all of the coordinates
     player.drawPlayer();
     gameMap.drawGameMap();
+    gameMap.drawBullies();
   }
 }

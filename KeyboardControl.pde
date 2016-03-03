@@ -1,23 +1,22 @@
 public class KeyboardControl
 {
-  int jumpCount = 0;//For double jumps, etc.
-  int aTapCount = 0;//For enabling sprint on double tap
-  int dTapCount = 0;
-  int doubleTapDelayInMillis = 225;
-  float aTapStartTime;
-  float dTapStartTime;
+  private int jumpCount = 0;//For double jumps, etc.
+  private int aTapCount = 0;//For enabling sprint on double tap
+  private int dTapCount = 0;
+  private int doubleTapDelayInMillis = 225;
+  private float aTapStartTime;
+  private float dTapStartTime;
   
+  private boolean faceRight = false;
   
-  boolean faceRight = false;
-  
-  HashMap <Integer, boolean[]> keys;
+  private HashMap <Integer, boolean[]> keys;
   public KeyboardControl(int numKeys)//At least need 4 keys: WASD
   {
     keys = new HashMap <Integer, boolean[]> ();
     genKeyArray(numKeys);
   }
   
-  protected void genKeyArray(int numKeys)
+  private void genKeyArray(int numKeys)
   {
     for (int x = 0; x < numKeys; x++)
     {
@@ -33,7 +32,7 @@ public class KeyboardControl
     }
   }
   
-  protected void keyIsPressed(char keyValue)
+  private void keyIsPressed(char keyValue)
   {
     switch (keyValue)
     {
@@ -56,7 +55,7 @@ public class KeyboardControl
     }
   }
   
-  protected void changePressedKey(int mapIndex)
+  private void changePressedKey(int mapIndex)
   {
     boolean [] array = keys.get(mapIndex);
     //If the key's "keyIsPressed" boolean is false, then it must have just been pressed
@@ -70,7 +69,7 @@ public class KeyboardControl
     keys.put(mapIndex,array);
   }
   
-  protected void keyIsReleased(char keyValue)
+  private void keyIsReleased(char keyValue)
   {
     //Need to think about how to allow a user to press and hold 'd', then press 'w', and still allow the program to know the user is still pressing 'd'
     switch (keyValue)
@@ -94,7 +93,7 @@ public class KeyboardControl
     }
   }
   
-  protected void changeReleasedKey(int mapIndex)
+  private void changeReleasedKey(int mapIndex)
   {
     boolean [] array = keys.get(mapIndex);
     //If the key's "keyIsPressed" boolean is true, then it must have just been released
@@ -108,7 +107,7 @@ public class KeyboardControl
     keys.put(mapIndex,array);
   }
   
-  protected void performKeys(Player p, boolean isOnPlatform, HashMap <Integer, Platform> platforms)
+  private void performKeys(Player p, boolean isOnPlatform, HashMap <Integer, Platform> platforms)
   {
     //'W'///////////////////////////////////////////////////////////////////////////////////////////////
     if (isOnPlatform)

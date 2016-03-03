@@ -1,11 +1,11 @@
 public class Player
 {
-  float playerX, playerY;
-  float playerWidth = 20;
-  float playerHeight = 50;
-  float playerXSpeed = 2;
-  float playerXVel;
-  float playerXAccelMag = .99;
+  private float playerX, playerY;
+  private float playerWidth = 20;
+  private float playerHeight = 50;
+  private float playerXSpeed = 2;
+  private float playerXVel;
+  private float playerXAccelMag = .99;
   //The player moving up and down / side to side is actually movement of the platforms
   Player(){}
   Player(float initialPx, float initialPy)
@@ -14,7 +14,7 @@ public class Player
     playerY = initialPy;
   }
   
-  public void drawPlayer()
+  private void drawPlayer()
   {
     rectMode (CENTER);
     fill (255);
@@ -30,12 +30,12 @@ public class Player
   {
     playerY = y;
   }
-  public float getPlayerX()
+  private float getPlayerX()
   {
     return playerX;
   }
   
-  public float getPlayerY()
+  private float getPlayerY()
   {
     return playerY;
   }
@@ -54,11 +54,11 @@ public class Player
   {
     return playerXVel;
   }
-  public float getPlayerWidth()
+  private float getPlayerWidth()
   {
     return playerWidth;
   }
-  public float getPlayerHeight()
+  private float getPlayerHeight()
   {
     return playerHeight;
   }
