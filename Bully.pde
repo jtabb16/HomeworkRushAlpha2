@@ -13,15 +13,13 @@ public class Bully
     bullyHeight = p.getPlayerHeight();
   }
   
-  /*
   private void drawBully()
   {
     rectMode (CENTER);
-    fill (255);
-    stroke (255,0,0);
+    fill (255,0,0);
+    stroke (255);
     rect ( bullyX, bullyY, bullyWidth, bullyHeight );
   }
-  */
   
   private float getXCoord()
   {
@@ -41,5 +39,10 @@ public class Bully
   private float getHeight()
   {
     return bullyHeight;
+  }
+  
+  private void setBullyY(float y)
+  {
+    bullyY = y;
   }
 }

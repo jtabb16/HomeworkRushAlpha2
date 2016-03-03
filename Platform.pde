@@ -86,4 +86,12 @@ public class Platform
   {
     return platOriginalY;
   }
+  
+  private void drawPlatform()
+  {
+    rectMode (CENTER);
+    fill (0,255,0);
+    stroke (255);
+    rect ( platX, platY, platWidth, platThickness );
+  }
 }

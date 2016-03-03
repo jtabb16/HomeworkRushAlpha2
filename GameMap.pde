@@ -3,7 +3,7 @@ public class GameMap
   //Was going to use array list b/c don't know the size of the array
   //HashMap has better big O for adding elements after there are many elements
   private HashMap <Integer, Platform> plats;//Map of platforms
-  private HashMap <Integer, Bully> bullies;//Map of bullies
+  private HashMap <Integer, Bully []> bullies;//Map of bullies//Can have multiple bullies on one platform//key value corresponds with platform #
   
   private float startX;
   private float playerStartX;
@@ -11,7 +11,7 @@ public class GameMap
   GameMap(int levelNum)
   {
     plats = new HashMap <Integer, Platform>();
-    bullies = new HashMap <Integer, Bully>();
+    bullies = new HashMap <Integer, Bully[]>();
     generateLevel(levelNum);//Fill the map with platforms
   }
   
@@ -20,6 +20,7 @@ public class GameMap
     //Eventually, read from a file to do this
     if (levelNumber == 0)//Make the 0th level (The tutorial)
     {
+      Bully [] bulliesOnPlatform;
       Player genericPlayer = new Player();//Generic player
       Platform genericPlatform = new Platform();//Generic platform
       Bully bully = new Bully();
@@ -30,32 +31,35 @@ public class GameMap
       plats.put( 0, new Platform(width/2, startY, 5*width));//Make a floor
       //Don't make the other platforms dependant on screen size
       plats.put( 1, new Platform(startX + 100, startY - 150, 200) );
-      bullies.put(0, new Bully(startX + 100, startY - 150 ) );//Need to make bullies affected by gravity and stuff, just like the platforms
+      bulliesOnPlatform = new Bully[1];
+      bulliesOnPlatform[0] = new Bully(startX + 100, startY - 150 - bully.getHeight());
+      bullies.put(1, bulliesOnPlatform );//Need to make bullies affected by gravity and stuff, just like the platforms
+      
+      bulliesOnPlatform = new Bully[2];
+      bulliesOnPlatform[0] = new Bully(startX + 150, startY - 150 );
+      bulliesOnPlatform[1] = new Bully(startX + 200, startY - 150 );
+      bullies.put(2, bulliesOnPlatform);
+      
       plats.put( 2, new Platform(startX + 300, startY - 250, 100) );
     }
   }
   
   private void drawGameMap()
   {
-    rectMode (CENTER);
-    fill (0,255,0);
-    stroke (255);
     for (int x = 0; x < plats.size(); x++)
     {
-      rect ( plats.get(x).getXCoord(), plats.get(x).getYCoord(), plats.get(x).getWidth(), plats.get(x).getThickness() );
-      //plats.get(x).drawPlatform();
+      plats.get(x).drawPlatform();
     }
   }
   
   private void drawBullies()
   {
-    rectMode (CENTER);
-    fill (255,0,0);
-    stroke (255);
-    for (int x = 0; x < bullies.size(); x++)
-    {
-      rect ( bullies.get(x).getXCoord(), bullies.get(x).getYCoord(), bullies.get(x).getWidth(), bullies.get(x).getHeight() );
-      //plats.get(x).drawBully();
+    for (Integer name: bullies.keySet())
+    { 
+      for (int y = 0; y < bullies.get(name).length; y++)
+      {
+        bullies.get(name)[y].drawBully();
+      }
     }
   }
   
@@ -63,6 +67,12 @@ public class GameMap
   {
     return plats;
   }
+  
+  private HashMap <Integer, Bully[]> getBullies()
+  {
+    return bullies;
+  }
+  
   
   private float getPlayerStartX()
   {

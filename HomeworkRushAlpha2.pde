@@ -21,8 +21,8 @@ private Environment env;
 private KeyboardControl kc;
 void setup()
 {
-  fullScreen();
-  //size (1200, 700);
+  //fullScreen();
+  size (1200, 700);
   frameRate(250);
   
   env = new Environment();//Make an environment

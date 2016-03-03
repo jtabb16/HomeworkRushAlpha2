@@ -21,7 +21,7 @@ public class BoundaryDetection
         //if it hits one, we need to stop all of them
         for (int y = 0; y < platforms.size(); y++)
         {
-          //platforms.get(y).setPlatYVel(0);
+          platforms.get(y).setPlatYVel(0);
           platforms.get(y).setYCoord( platforms.get(x).getYCoord() - (platforms.get(x).getOriginalY() - platforms.get(y).getOriginalY()) );//Set all the other platforms' y's to the current platform's y + their delta
         }
       }

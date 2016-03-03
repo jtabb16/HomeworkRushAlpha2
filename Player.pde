@@ -3,9 +3,9 @@ public class Player
   private float playerX, playerY;
   private float playerWidth = 20;
   private float playerHeight = 50;
-  private float playerXSpeed = 2;
+  private float playerXSpeed = 1.0;
   private float playerXVel;
-  private float playerXAccelMag = .99;
+  private float playerXAccelMag = .995;
   //The player moving up and down / side to side is actually movement of the platforms
   Player(){}
   Player(float initialPx, float initialPy)
